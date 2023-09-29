@@ -1,40 +1,40 @@
 import React, { useState, useEffect } from 'react'
 import DonationHub from '../components/donation-hub';
-import CashHub from '../components/cash-hub';
+// import CashHub from '../components/cash-hub';
 import { Tab } from '@headlessui/react';
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
+// import { loadStripe } from "@stripe/stripe-js";
+// import { Elements } from "@stripe/react-stripe-js";
 import classNames from '../helpers/class-names';
 
-const stripePromise = loadStripe("pk_test_51IshmUGA76ACgMclqLJaIUaB2fo8rU1k4iN4RcEBIUMJOb4rcQEq43p2fBtHdpdZIadsEuNzpdU5ybkym64VnIfv00gOnExXn3");
+// const stripePromise = loadStripe("pk_test_51IshmUGA76ACgMclqLJaIUaB2fo8rU1k4iN4RcEBIUMJOb4rcQEq43p2fBtHdpdZIadsEuNzpdU5ybkym64VnIfv00gOnExXn3");
 
 function Donation() {
   let [categories] = useState({
-    cash: <CashHub />,
+    cash: 'cash hub',
     goods: <DonationHub />
   })
 
-  const [clientSecret, setClientSecret] = useState("");
+  // const [clientSecret, setClientSecret] = useState("");
 
-  useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    fetch("/create-payment-intent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
-    })
-      .then((res) => res.json())
-      .then((data) => setClientSecret(data.clientSecret));
-  }, []);
+  // useEffect(() => {
+  //   // Create PaymentIntent as soon as the page loads
+  //   fetch("/create-payment-intent", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => setClientSecret(data.clientSecret));
+  // }, []);
 
-  const appearance = {
-    theme: 'stripe',
-  };
+  // const appearance = {
+  //   theme: 'stripe',
+  // };
 
-  const options = {
-    clientSecret,
-    appearance,
-  };
+  // const options = {
+  //   clientSecret,
+  //   appearance,
+  // };
 
   return (<>
     <section className="flex min-h-full flex-1 flex-col justify-center mx-auto max-w-5xl px-12 py-12 lg:px-8">
@@ -60,14 +60,7 @@ function Donation() {
           </Tab.List>
           <Tab.Panels className="mt-2">
             {Object.values(categories).map((cat, idx) =>
-              idx == 0 ?
-                <Tab.Panel>(clientSecret && (
-                  <Elements options={options} stripe={stripePromise}>
-                    {cat}
-                  </Elements>
-                  ))</Tab.Panel>
-                :
-                cat
+              <Tab.Panel key={idx}>{cat}</Tab.Panel>
             )}
           </Tab.Panels>
         </Tab.Group>
